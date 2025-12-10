@@ -118,10 +118,7 @@ git clone https://github.com/cmoyanoch/prueba-tecnica.git prueba-tecnica-temp
 **Paso 15**: Copiar contenido (reemplaza "api" y "spa" por los nombres reales de tus carpetas)
 
 ```bash
-cp prueba-tecnica-temp/*.md prueba-tecnica/
-cp prueba-tecnica-temp/.gitignore prueba-tecnica/
-cp -r prueba-tecnica-temp/api/* prueba-tecnica/api/
-cp -r prueba-tecnica-temp/spa/* prueba-tecnica/spa/
+cp -r prueba-tecnica-temp/. prueba-tecnica/
 ```
 
 **Paso 16**: (Opcional) Inicializar Git en el directorio destino
@@ -177,6 +174,9 @@ php artisan db:seed
 
 ```bash
 cd api
+```
+
+```bash
 php artisan serve
 ```
 
@@ -186,6 +186,9 @@ php artisan serve
 
 ```bash
 cd spa
+```
+
+```bash
 npm run dev
 ```
 
@@ -273,19 +276,33 @@ npm run dev
 **Tests Unitarios**:
 
 *CreateSolicitudActionTest.php*:
+```bash
 1. `test_execute_crea_solicitud_con_estado_pendiente` - Verifica creación con estado pendiente
+```
 
 *UpdateEstadoSolicitudActionTest.php*:
+```bash
 2. `test_execute_actualiza_estado_a_aprobado` - Verifica actualización de estado a aprobado
+```
 
 *ListSolicitudesActionTest.php*:
+```bash
 3. `test_execute_delega_al_repository_y_retorna_coleccion` - Verifica delegación al repository
+```
+```bash
 4. `test_execute_retorna_coleccion_vacia_cuando_no_hay_solicitudes` - Verifica colección vacía
-
+```
 *EloquentSolicitudRepositoryTest.php*:
+
+```bash
 5. `test_getAll_retorna_coleccion_ordenada_por_id_desc` - Verifica ordenamiento descendente
+```
+```bash
 6. `test_findById_retorna_solicitud_cuando_existe` - Verifica búsqueda por ID
+```
+```bash
 7. `test_create_crea_nueva_solicitud` - Verifica creación en el repository
+```
 
 ## 🧪 Ejecutar Tests del Backend
 
@@ -331,14 +348,12 @@ php artisan test app/Modules/Solicitudes/Tests/Feature/SolicitudApiTest.php
 
 ### Opciones adicionales
 
-**Ejecutar con PHPUnit directamente (más opciones)**
+**Ejecutar con PHPUnit directamente con filtro y verbose**
+```bash(más opciones)**
 
-```bash
-# Con filtro y verbose
+**Ejecutar
 vendor/bin/phpunit --filter test_paginacion_ultima_pagina --verbose app/Modules/Solicitudes/Tests/Feature/SolicitudApiTest.php
-
 ```
-
 
 ## 🔍 Verificar Logs de Auditoría API Laravel
 
