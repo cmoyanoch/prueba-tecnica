@@ -283,7 +283,7 @@ npm run dev
 4. `test_execute_retorna_coleccion_vacia_cuando_no_hay_solicitudes` - Verifica colección vacía
 
 *EloquentSolicitudRepositoryTest.php*:
-5. `test_getAll_retorna_coleccion_ordenada_por_created_at_desc` - Verifica ordenamiento descendente
+5. `test_getAll_retorna_coleccion_ordenada_por_id_desc` - Verifica ordenamiento descendente
 6. `test_findById_retorna_solicitud_cuando_existe` - Verifica búsqueda por ID
 7. `test_create_crea_nueva_solicitud` - Verifica creación en el repository
 
