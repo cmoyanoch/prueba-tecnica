@@ -1,7 +1,7 @@
 <script setup lang="ts">
-// App básico - se actualizará en feature/spa-views
+import SolicitudesView from '@/views/SolicitudesView.vue';
 </script>
 
 <template>
-  <div>App inicial</div>
+  <SolicitudesView />
 </template>
