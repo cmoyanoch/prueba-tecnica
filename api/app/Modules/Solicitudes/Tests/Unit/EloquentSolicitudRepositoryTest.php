@@ -21,18 +21,18 @@ final class EloquentSolicitudRepositoryTest extends TestCase
         parent::tearDown();
     }
 
-    public function test_getAll_retorna_coleccion_ordenada_por_created_at_desc(): void
+    public function test_getAll_retorna_coleccion_ordenada_por_id_desc(): void
     {
         // Arrange
         $collection = Collection::make([
-            (object) ['id' => 2, 'created_at' => '2024-01-02'],
-            (object) ['id' => 1, 'created_at' => '2024-01-01'],
+            (object) ['id' => 2, 'nombre_documento' => 'Test 2'],
+            (object) ['id' => 1, 'nombre_documento' => 'Test 1'],
         ]);
 
         $query = Mockery::mock(Builder::class);
         $query->shouldReceive('orderByDesc')
             ->once()
-            ->with('created_at')
+            ->with('id')
             ->andReturnSelf();
         $query->shouldReceive('get')
             ->once()
