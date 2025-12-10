@@ -176,7 +176,8 @@ php artisan db:seed
 **Iniciar API**:
 
 ```bash
-cd api && php artisan serve
+cd api
+php artisan serve
 ```
 
 (Puerto 8000)
@@ -184,7 +185,8 @@ cd api && php artisan serve
 **Iniciar SPA**:
 
 ```bash
-cd spa && npm run dev
+cd spa
+npm run dev
 ```
 
 (Puerto 5173)
@@ -242,34 +244,48 @@ cd spa && npm run dev
 - 🔍 Trazabilidad completa de cambios
 
 #### Testing
-- ✅ **15 tests de integración** (Feature tests)
-- ✅ **5 tests unitarios** (Actions y Repository)
+- ✅ **17 tests de integración** (Feature tests)
+- ✅ **7 tests unitarios** (Actions y Repository)
 - 🧪 Cobertura completa de endpoints API
 - 🎯 Tests con mocks para aislar dependencias
 
-### Frontend (Vue 3 SPA)
+##### Listado de Tests
 
-#### Arquitectura
-- 🎨 **Composition API**: Lógica reutilizable con composables
-- 📘 **TypeScript**: Tipado estático para mayor seguridad
-- 🎯 **Separación de responsabilidades**: Services, Composables, Components, Views
+**Tests de Integración (Feature)** - `SolicitudApiTest.php`:
+1. `test_puede_listar_solicitudes` - Verifica que se pueden listar solicitudes
+2. `test_puede_crear_solicitud` - Verifica la creación de solicitudes
+3. `test_puede_actualizar_estado` - Verifica la actualización de estado
+4. `test_validacion_nombre_requerido` - Valida que el nombre es requerido
+5. `test_solicitud_no_encontrada_retorna_404` - Verifica respuesta 404 para solicitud inexistente
+6. `test_puede_listar_solicitudes_paginadas` - Verifica paginación de solicitudes
+7. `test_validacion_per_page_maximo` - Valida límite máximo de elementos por página
+8. `test_validacion_per_page_minimo` - Valida límite mínimo de elementos por página
+9. `test_validacion_per_page_no_es_numero` - Valida que per_page sea numérico
+10. `test_validacion_page_minimo` - Valida que la página sea mayor a 0
+11. `test_puede_eliminar_solicitud` - Verifica la eliminación de solicitudes
+12. `test_eliminar_solicitud_inexistente_retorna_404` - Verifica 404 al eliminar solicitud inexistente
+13. `test_validacion_estado_invalido` - Valida que el estado sea válido
+14. `test_validacion_nombre_documento_minimo` - Valida longitud mínima del nombre
+15. `test_validacion_nombre_documento_maximo` - Valida longitud máxima del nombre
+16. `test_paginacion_pagina_vacia_retorna_primera_pagina` - Verifica comportamiento con página vacía
+17. `test_paginacion_ultima_pagina` - Verifica navegación a la última página
 
-#### Componentes
-- 📝 **SolicitudForm**: Formulario de creación con validación
-- 🏷️ **EstadoBadge**: Badge visual de estado con colores
-- 💬 **ConfirmDialog**: Diálogo de confirmación con Teleport y animaciones
-- 📄 **Pagination**: Componente de paginación completo
-- 📊 **SolicitudTable**: Tabla con columnas sticky y estados de carga
-- 📋 **SolicitudRow**: Fila de tabla con watch automático y manejo de estados
+**Tests Unitarios**:
 
-#### Características
-- ⚡ Reactividad automática con Vue 3
-- 🔄 Manejo de estados con watch y computed properties
-- 🎯 Manejo de errores centralizado
-- 📡 Comunicación con API mediante servicio dedicado
-- 🎨 UI moderna y responsive
+*CreateSolicitudActionTest.php*:
+1. `test_execute_crea_solicitud_con_estado_pendiente` - Verifica creación con estado pendiente
 
+*UpdateEstadoSolicitudActionTest.php*:
+2. `test_execute_actualiza_estado_a_aprobado` - Verifica actualización de estado a aprobado
 
+*ListSolicitudesActionTest.php*:
+3. `test_execute_delega_al_repository_y_retorna_coleccion` - Verifica delegación al repository
+4. `test_execute_retorna_coleccion_vacia_cuando_no_hay_solicitudes` - Verifica colección vacía
+
+*EloquentSolicitudRepositoryTest.php*:
+5. `test_getAll_retorna_coleccion_ordenada_por_created_at_desc` - Verifica ordenamiento descendente
+6. `test_findById_retorna_solicitud_cuando_existe` - Verifica búsqueda por ID
+7. `test_create_crea_nueva_solicitud` - Verifica creación en el repository
 
 ## 🧪 Ejecutar Tests del Backend
 
@@ -279,19 +295,13 @@ cd spa && npm run dev
 cd api
 ```
 
-### Ejecutar todos los tests
-
-```bash
-php artisan test
-```
-
 ### Ejecutar tests del módulo Solicitudes
 
 ```bash
 php artisan test app/Modules/Solicitudes/Tests/
 ```
 
-### Ejecutar solo tests Feature
+### Ejecutar solo tests Feature (Integración)
 
 ```bash
 php artisan test app/Modules/Solicitudes/Tests/Feature/
@@ -303,17 +313,32 @@ php artisan test app/Modules/Solicitudes/Tests/Feature/
 php artisan test app/Modules/Solicitudes/Tests/Unit/
 ```
 
-### Ejecutar un test específico
+### Ejecutar un método de test específico
+
+**Opción 1: Usando PHPUnit directamente (recomendado para métodos específicos)**
+
+```bash
+vendor/bin/phpunit --filter test_paginacion_ultima_pagina app/Modules/Solicitudes/Tests/Feature/SolicitudApiTest.php
+```
+
+**Opción 2: Ejecutar el archivo completo y buscar en la salida**
 
 ```bash
 php artisan test app/Modules/Solicitudes/Tests/Feature/SolicitudApiTest.php
 ```
 
-### Ejecutar con cobertura (si está configurado)
+> **Nota**: El comando `php artisan test --filter` no funciona correctamente en Laravel. Para ejecutar un método específico, usa `vendor/bin/phpunit --filter` directamente.
+
+### Opciones adicionales
+
+**Ejecutar con PHPUnit directamente (más opciones)**
 
 ```bash
-php artisan test --coverage
+# Con filtro y verbose
+vendor/bin/phpunit --filter test_paginacion_ultima_pagina --verbose app/Modules/Solicitudes/Tests/Feature/SolicitudApiTest.php
+
 ```
+
 
 ## 🔍 Verificar Logs de Auditoría API Laravel
 
@@ -342,3 +367,25 @@ grep "solicitud.created" storage/logs/audit*.log
 grep "solicitud.estado.updated" storage/logs/audit*.log
 grep "solicitudes.listed" storage/logs/audit*.log
 ```
+
+### Frontend (Vue 3 SPA)
+
+#### Arquitectura
+- 🎨 **Composition API**: Lógica reutilizable con composables
+- 📘 **TypeScript**: Tipado estático para mayor seguridad
+- 🎯 **Separación de responsabilidades**: Services, Composables, Components, Views
+
+#### Componentes
+- 📝 **SolicitudForm**: Formulario de creación con validación
+- 🏷️ **EstadoBadge**: Badge visual de estado con colores
+- 💬 **ConfirmDialog**: Diálogo de confirmación con Teleport y animaciones
+- 📄 **Pagination**: Componente de paginación completo
+- 📊 **SolicitudTable**: Tabla con columnas sticky y estados de carga
+- 📋 **SolicitudRow**: Fila de tabla con watch automático y manejo de estados
+
+#### Características
+- ⚡ Reactividad automática con Vue 3
+- 🔄 Manejo de estados con watch y computed properties
+- 🎯 Manejo de errores centralizado
+- 📡 Comunicación con API mediante servicio dedicado
+- 🎨 UI moderna y responsive
