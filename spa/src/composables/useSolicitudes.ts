@@ -22,7 +22,7 @@ export function useSolicitudes() {
   );
   const hasPagination = computed(() => pagination.value !== null);
   const totalPages = computed(() => pagination.value?.last_page ?? 1);
-mkdir -p src/composables
+
 
   function handleError(e: unknown): void {
     if (e instanceof ApiError) {
