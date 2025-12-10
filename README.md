@@ -62,8 +62,8 @@ composer create-project laravel/laravel . --prefer-dist
 **Paso 6**: Editar .env
 
 ```bash
--DB_CONNECTION=sqlite
--DB_DATABASE=database/database.sqlite
+DB_CONNECTION=sqlite
+DB_DATABASE=database/database.sqlite
 ```
 
 **Paso 7**: Generar clave de aplicación
