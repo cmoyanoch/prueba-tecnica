@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace App\Modules\Solicitudes\Providers;
 
+use App\Modules\Solicitudes\Application\Services\AuditLogger;
+use App\Modules\Solicitudes\Application\Services\AuditLoggerInterface;
 use App\Modules\Solicitudes\Domain\Contracts\SolicitudRepositoryInterface;
 use App\Modules\Solicitudes\Infrastructure\Repositories\EloquentSolicitudRepository;
 use Illuminate\Support\Facades\Route;
@@ -19,6 +21,10 @@ class SolicitudServiceProvider extends ServiceProvider
             EloquentSolicitudRepository::class
         );
 
+        $this->app->singleton(
+            AuditLoggerInterface::class,
+            AuditLogger::class
+        );
     }
 
     public function boot(): void
