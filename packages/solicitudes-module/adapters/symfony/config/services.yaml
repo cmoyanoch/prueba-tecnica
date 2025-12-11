@@ -1,0 +1,49 @@
+# Configuración de servicios para el módulo Solicitudes en Symfony
+
+services:
+    _defaults:
+        autowire: true
+        autoconfigure: true
+
+    # Repository
+    SolicitudesModule\Domain\Contracts\SolicitudRepositoryInterface:
+        class: SolicitudesModule\Infrastructure\Persistence\Doctrine\DoctrineSolicitudRepository
+
+    # Audit Logger
+    SolicitudesModule\Domain\Contracts\AuditLoggerInterface:
+        class: SolicitudesModule\Adapters\Symfony\SymfonyAuditLogger
+
+    # Event Dispatcher
+    SolicitudesModule\Domain\Contracts\EventDispatcherInterface:
+        class: SolicitudesModule\Adapters\Symfony\SymfonyEventDispatcher
+
+    # Use Cases
+    SolicitudesModule\Application\UseCases\CreateSolicitudUseCase:
+        arguments:
+            - '@SolicitudesModule\Domain\Contracts\SolicitudRepositoryInterface'
+            - '@SolicitudesModule\Domain\Contracts\AuditLoggerInterface'
+            - '@SolicitudesModule\Domain\Contracts\EventDispatcherInterface'
+
+    SolicitudesModule\Application\UseCases\ListSolicitudesUseCase:
+        arguments:
+            - '@SolicitudesModule\Domain\Contracts\SolicitudRepositoryInterface'
+
+    SolicitudesModule\Application\UseCases\GetSolicitudUseCase:
+        arguments:
+            - '@SolicitudesModule\Domain\Contracts\SolicitudRepositoryInterface'
+
+    SolicitudesModule\Application\UseCases\UpdateEstadoSolicitudUseCase:
+        arguments:
+            - '@SolicitudesModule\Domain\Contracts\SolicitudRepositoryInterface'
+            - '@SolicitudesModule\Domain\Contracts\AuditLoggerInterface'
+            - '@SolicitudesModule\Domain\Contracts\EventDispatcherInterface'
+
+    SolicitudesModule\Application\UseCases\DeleteSolicitudUseCase:
+        arguments:
+            - '@SolicitudesModule\Domain\Contracts\SolicitudRepositoryInterface'
+            - '@SolicitudesModule\Domain\Contracts\AuditLoggerInterface'
+            - '@SolicitudesModule\Domain\Contracts\EventDispatcherInterface'
+
+    # Controller
+    SolicitudesModule\Adapters\Symfony\Controller\SolicitudController:
+        tags: ['controller.service_arguments']

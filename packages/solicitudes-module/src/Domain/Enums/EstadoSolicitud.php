@@ -2,10 +2,11 @@
 
 declare(strict_types=1);
 
-namespace App\Modules\Solicitudes\Domain\Enums;
+namespace SolicitudesModule\Domain\Enums;
 
 /**
  * Estados posibles de una solicitud.
+ * PHP puro - Sin dependencias de framework.
  */
 enum EstadoSolicitud: string
 {
